@@ -60,3 +60,103 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Passo a passo para criação do projeto
+
+Os passos abaixo seguem os commits realizados no projeto, assumindo que você esteja no diretório C:\docker\.
+
+1- Clonar o repositório do laradock  
+```
+C:\docker\> git clone https://github.com/laradock/laradock.git
+```
+
+2- Criar o arquivo de configuração ".env" do laradock
+```
+C:\docker\laradock> cp .env.example .env
+```
+
+3- Editar o arquivo .env para utilizar o php 7.4  
+linha 42: PHP_VERSION=7.4
+
+4- Criar o arquivo .conf para o projeto exemplo-laravel-vuejs-vuetify.conf
+
+5- Alterar o arquivo hosts do Windows para encontrar o projeto exemplo-laravel-vuejs-vuetify.local
+```
+127.0.0.1    exemplo-laravel-vuejs-vuetify.local
+```
+
+6- Subir o ambiente
+C:\docker\laradock> docker-compose up -d nginx
+
+7- Entrar no container para executar os comandos laravel:
+```
+C:\docker\laradock> docker-compose exec workspace bash
+```
+* Para sair do container pressionar CTRL + D
+
+8- Criar o projeto
+```shell
+/var/www# composer create-project laravel/laravel exemplo-laravel-vuejs-vuetify
+```
+
+9- No container, corrigir as permissões de acesso aos arquivos
+```shell
+/var/www# cd exemplo-laravel-vuejs-vuetify  
+/var/www/exemplo-laravel-vuejs-vuetify# chmod -R guo+w ./storage
+```
+
+10- Subir o servidor e testar
+/var/www/exemplo-laravel-vuejs-vuetify# php artisan serve
+No navegador acessar o endereço http://exemplo-laravel-vuejs-vuetify.local
+
+11- Instalar o laravel/ui no projeto
+```shell
+/var/www/exemplo-laravel-vuejs-vuetify# composer require laravel/ui
+```
+
+12- Configurar o vuejs no projeto
+```shell
+/var/www/exemplo-laravel-vuejs-vuetify# php artisan ui vue
+```
+
+13- Compilar os arquivos criados
+```shell
+/var/www/exemplo-laravel-vuejs-vuetify# npm install && npm run dev
+```
+
+14- Instalar o vuetify no projeto
+```shell
+/var/www/exemplo-laravel-vuejs-vuetify# npm install vuetify
+```
+
+15- Instalar a dependência sass-loader no projeto
+```shell
+/var/www/exemplo-laravel-vuejs-vuetify# npm install sass@~1.32 sass-loader deepmerge -D
+```
+
+16- Instalar o vuetify-loader no projeto
+```shell
+/var/www/exemplo-laravel-vuejs-vuetify# npm install vuetify-loader
+```
+
+17- Criar o arquivo de configurações resources/plugins/vuetify.js
+
+18- Instalar o case-sensitive-paths-webpack-plugin no projeto
+```shell
+/var/www/exemplo-laravel-vuejs-vuetify# npm install --save-dev case-sensitive-paths-webpack-plugin
+```
+
+19- Configurar o vuetify-loader e o case-sensitive-paths-webpack-plugin no arquivo webpack.mix.js
+
+20- Incluir o vuetify na aplicação no arquivo app.js
+
+21- Corrigir importações do vuetify para nova versão nos arquivos vuetify.js e webpack.mix.js
+
+22- Criar rota e arquivo php para testar vuetify
+
+23- Verificando se o projeto continua executando corretamente e compilar os arquivos
+```shell
+/var/www/exemplo-laravel-vuejs-vuetify# npm run watch
+```
+
+24- Acessar o endereço http://exemplo-laravel-vuejs-vuetify.local/test
